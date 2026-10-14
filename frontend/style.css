@@ -239,6 +239,196 @@ body {
   transform: translateY(-1px);
 }
 
+.btn-secondary-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #FFFFFF;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 7px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary-sm:hover {
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
+  transform: translateY(-1px);
+}
+
+/* Modal Backdrop & Dialog */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-backdrop.active {
+  display: flex;
+}
+
+.modal-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-icon {
+  font-size: 1.5rem;
+}
+
+.modal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.modal-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.modal-close-btn:hover {
+  background: #F3F4F6;
+  color: var(--text-main);
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.qr-container {
+  padding: 12px;
+  background: #FFFFFF;
+  border-radius: 14px;
+  border: 2px dashed var(--border-color);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.qr-container img {
+  display: block;
+  border-radius: 8px;
+}
+
+.qr-url-pill {
+  padding: 6px 14px;
+  background: var(--primary-light);
+  color: var(--primary-accent);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.qr-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Print Only Styles */
+.print-only-header {
+  display: none;
+}
+
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .navbar, .param-selector-group, .tab-group, .modal-backdrop, .dashboard-footer, #btnMobileQr, #btnPrintReport, #btnExportNav {
+    display: none !important;
+  }
+  .print-only-header {
+    display: block !important;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #1F2937;
+  }
+  .print-header-top h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .print-header-top p {
+    font-size: 0.85rem;
+    color: #4B5563;
+    margin-bottom: 12px;
+  }
+  .print-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    font-size: 0.8rem;
+    padding: 10px;
+    background: #F9FAFB;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+  }
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #D1D5DB !important;
+    page-break-inside: avoid;
+  }
+}
+
 /* =============================================================
    Main Layout & Card Base
    ============================================================= */

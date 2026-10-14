@@ -701,6 +701,27 @@ function exportData() {
   window.open(`${API_BASE}/export/csv`, "_blank");
 }
 
+function openQrModal() {
+  const modal = document.getElementById("qrModalBackdrop");
+  if (modal) modal.classList.add("active");
+}
+
+function closeQrModal(e) {
+  const modal = document.getElementById("qrModalBackdrop");
+  if (modal) modal.classList.remove("active");
+}
+
+function printOfficialReport() {
+  const dateSpan = document.getElementById("printDate");
+  const wqiSpan = document.getElementById("printWqiScore");
+  const curWqi = document.getElementById("wqiScore");
+
+  if (dateSpan) dateSpan.textContent = new Date().toLocaleString();
+  if (wqiSpan && curWqi) wqiSpan.textContent = curWqi.textContent || "--";
+
+  window.print();
+}
+
 async function toggleSimulator() {
   try {
     const res = await fetch(`${API_BASE}/simulator/toggle`, { method: "POST" });

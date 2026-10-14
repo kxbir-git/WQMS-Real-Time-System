@@ -46,6 +46,25 @@
           <span id="liveClock">--:--:--</span>
         </div>
 
+        <button id="btnMobileQr" class="btn-secondary-sm" onclick="openQrModal()" title="Open on Mobile via QR Code">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          Mobile QR
+        </button>
+
+        <button id="btnPrintReport" class="btn-secondary-sm" onclick="printOfficialReport()" title="Print Official PDF Test Report">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Print Report (PDF)
+        </button>
+
         <button id="btnExportNav" class="btn-primary-sm" onclick="exportData()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -531,6 +550,45 @@
       </div>
     </div>
   </footer>
+
+  <!-- Mobile QR Code Modal -->
+  <div id="qrModalBackdrop" class="modal-backdrop" onclick="closeQrModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">📱</span>
+          <div>
+            <h3 class="modal-title">Live Mobile Dashboard</h3>
+            <p class="modal-sub">Scan with phone camera to view real-time telemetry</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeQrModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="qr-container">
+          <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://wqms-sys.vercel.app/&bgcolor=ffffff&color=1F2937&margin=1" alt="Scan QR Code to open dashboard" width="220" height="220" />
+        </div>
+        <div class="qr-url-pill">
+          <span>https://wqms-sys.vercel.app/</span>
+        </div>
+        <p class="qr-note">⚡ Zero install required. Opens instantly on iOS & Android browsers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print Only Header (Visible during Window Print / PDF) -->
+  <div class="print-only-header">
+    <div class="print-header-top">
+      <h2>AquaSense Water Quality Inspection Certificate</h2>
+      <p>Official Multi-Sensor Real-Time Telemetry & Potability Compliance Report</p>
+    </div>
+    <div class="print-meta-grid">
+      <div><strong>Inspection Date:</strong> <span id="printDate"></span></div>
+      <div><strong>Station ID:</strong> ESP32_STATION_01</div>
+      <div><strong>Compliance Standard:</strong> WHO & BIS IS 10500:2012</div>
+      <div><strong>Overall WQI Score:</strong> <span id="printWqiScore">--</span>/100</div>
+    </div>
+  </div>
 
   <!-- Client Script -->
   <script src="script.js"></script>
