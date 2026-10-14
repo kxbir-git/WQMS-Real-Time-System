@@ -93,34 +93,50 @@ This capstone project was planned, executed, and validated collaboratively over 
 
 ---
 
-## 5. Circuit Schematic & Pin Assignment
+## 5. Circuit Schematic & Hardware Wiring Guide
 
-```text
-               +-------------------------------------------+
-               |              ESP32 DevKit V1              |
-               |                                           |
-               |  3V3   GND   GPIO34   GPIO35   GPIO32   GPIO4 |
-               +---+-----+------+-------+--------+---------+-+
-                   |     |      |       |        |         |
-                   |     |      |       |        |         +-- (1-Wire Data + 4.7kΩ to 3V3)
-                   |     |      |       |        +-- Turbidity AOUT (Pin 32)
-                   |     |      |       +----------- pH AOUT (Pin 35)
-                   |     |      +------------------- TDS AOUT (Pin 34)
-                   |     |
-             3.3V  |     | GND Rail
-            Rail   v     v
-```
+![Complete IoT Water Quality Monitoring System Circuit](docs/screenshots/hardware_wiring_guide.jpg)
 
-> **Critical Note on ESP32 ADCs**: Always wire analog sensors to **ADC1 channels** (GPIO 32, 33, 34, 35, 36, 39). ADC2 cannot be sampled when Wi-Fi is transmitting!
+### 5.1 Exact Pin-to-Pin Connection Table
 
-| Sensor | Sensor Pin | ESP32 GPIO | Channel Type | Operating Voltage |
-|---|---|---|---|---|
-| **TDS Sensor** | AOUT | GPIO 34 | ADC1_CH6 (Analog) | 3.3V DC |
-| **pH Sensor** | AOUT | GPIO 35 | ADC1_CH7 (Analog) | 3.3V DC |
-| **Turbidity Sensor** | AOUT | GPIO 32 | ADC1_CH4 (Analog) | 3.3V DC |
-| **DS18B20 Temp** | DATA (Yellow) | GPIO 4 | 1-Wire Digital (Pull-up 4.7kΩ) | 3.3V DC |
-| **All Sensors** | VCC | 3V3 | Power Bus | 3.3V DC |
-| **All Sensors** | GND | GND | Common Ground | 0V |
+> **Critical Note on ESP32 ADCs**: Always wire analog sensors to **ADC1 channels** (GPIO 32, 33, 34, 35, 36, 39). ADC2 channels (GPIO 0, 2, 4, 12, 13, 14, 15, 25, 26, 27) cannot be sampled when Wi-Fi is transmitting!
+
+| Sensor Module | Sensor Pin | ESP32 Pin | Channel Type | Wire Color (Recommended) | Description |
+|---|---|---|---|---|---|
+| **Common Rail** | Power Rail (+) | **VIN (5V)** | Power Bus | 🔴 Red | 5V DC Supply Rail |
+| **Common Rail** | Ground Rail (-) | **GND** | Ground Bus | ⚫ Black | 0V Reference Ground |
+| **TDS Sensor** | VCC | Breadboard 5V Rail | Power | 🔴 Red | Sensor Power Supply |
+| **TDS Sensor** | GND | Breadboard GND Rail | Ground | ⚫ Black | Common Ground |
+| **TDS Sensor** | AOUT | **GPIO 34** | ADC1_CH6 (Analog) | 🔵 Blue | Analog Voltage Output (0 – 2.3V) |
+| **pH Sensor** | VCC | Breadboard 5V Rail | Power | 🔴 Red | 5V Power Supply |
+| **pH Sensor** | GND | Breadboard GND Rail | Ground | ⚫ Black | Common Ground |
+| **pH Sensor** | AOUT | **GPIO 35** | ADC1_CH7 (Analog) | 🟡 Yellow | Analog Potential Output |
+| **Turbidity Sensor**| VCC | Breadboard 5V Rail | Power | 🔴 Red | Infrared LED Power |
+| **Turbidity Sensor**| GND | Breadboard GND Rail | Ground | ⚫ Black | Common Ground |
+| **Turbidity Sensor**| AOUT | **GPIO 32** | ADC1_CH4 (Analog) | 🟢 Green | Refraction Analog Output (0 – 4.5V scaled) |
+| **DS18B20 Temp** | VDD (Red) | **3V3 Pin** | Digital Logic | 🔴 Red | 3.3V Digital Power |
+| **DS18B20 Temp** | GND (Black) | Breadboard GND Rail | Ground | ⚫ Black | Common Ground |
+| **DS18B20 Temp** | DATA (Yellow) | **GPIO 4** | 1-Wire Digital | ⚪ White / Yellow | OneWire Temperature Stream |
+| **Pull-up Resistor**| 4.7 kΩ | **Between 3.3V & GPIO 4** | Passive | — | **Mandatory:** Pull-up for 1-Wire bus |
+
+### 5.2 Step-by-Step Breadboard Assembly Instructions
+
+1. **Mount the ESP32:** Insert the ESP32 module across the center trough of the breadboard so that pin rows on both sides are accessible.
+2. **Distribute Power Rails:** Connect ESP32 `VIN` to the breadboard positive rail (+) with a red wire, and ESP32 `GND` to the negative rail (-) with a black wire.
+3. **Wire Analog Sensors to ADC1:**
+   - Connect TDS signal wire to **GPIO 34**.
+   - Connect pH signal wire to **GPIO 35**.
+   - Connect Turbidity signal wire to **GPIO 32** (set the slider switch on the turbidity adapter board to **'A' (Analog)**).
+4. **Wire DS18B20 1-Wire Probe:**
+   - Connect the Red wire to `3V3`, Black wire to `GND`, and Yellow wire to **GPIO 4**.
+   - Place a **4.7 kΩ resistor** between `3V3` and `GPIO 4` to keep the 1-Wire digital bus pulled high during idle states.
+5. **Probe Immersion:** Submerge only the waterproof probe tips (metal tips for TDS & DS18B20, glass bulb for pH, U-shaped slot for turbidity) into the water vessel. Keep the signal conditioning amplifier boards dry.
+
+### 5.3 Sensor Calibration Procedures
+
+- **pH Sensor Calibration:** Place the pH probe in standard pH 7.0 buffer solution. Use a precision screwdriver on the blue multi-turn potentiometer on the amplifier board until the serial monitor outputs exactly `7.00 pH`.
+- **TDS Sensor Calibration:** Place the TDS probe in pure distilled water (0–10 ppm) or a known calibration solution (e.g. 1413 µS/cm). Adjust the calibration factor in `tds_sensor.ino` if necessary.
+- **Turbidity Sensor Calibration:** In crystal clear drinking water, the output voltage should be $\approx 4.1\text{V} - 4.5\text{V}$ (0 NTU). As water becomes opaque/cloudy, output voltage drops below $2.5\text{V}$.
 
 ---
 
