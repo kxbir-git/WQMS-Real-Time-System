@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "frontend",
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://wqms-iot-dashboard.onrender.com/api/:match*"
+    }
+  ]
+}

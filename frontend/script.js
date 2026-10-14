@@ -11,10 +11,13 @@
  * ============================================================
  */
 
-// Auto-detect: works on localhost AND deployed servers
-const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+// Auto-detect: works on localhost, Render, and Vercel/external hosting
+const BACKEND_RENDER_URL = "https://wqms-iot-dashboard.onrender.com";
+const API_BASE = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
     ? "http://localhost:5000/api"
-    : window.location.origin + "/api";
+    : (window.location.hostname.endsWith("onrender.com")
+        ? window.location.origin + "/api"
+        : `${BACKEND_RENDER_URL}/api`);
 
 // Active Chart Configuration State
 let trendChart = null;
