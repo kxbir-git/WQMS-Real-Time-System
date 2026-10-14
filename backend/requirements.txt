@@ -1,0 +1,7 @@
+flask
+flask-cors
+paho-mqtt
+sqlalchemy
+pandas
+python-dotenv
+pyserial

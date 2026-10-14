@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AquaSense WQMS — IoT Real-Time Water Quality Monitor</title>
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header (Sticky & Responsive) -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-logo-dot">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <h1>AquaSense WQMS</h1>
+          <span class="sub-brand">Live Multi-Parameter Water Quality Monitor</span>
+        </div>
+      </div>
+
+        <div class="device-badge">
+          <span id="deviceStatusDot" class="status-dot dot-offline"></span>
+          <span id="deviceStatusText" class="status-label">Hardware Disconnected</span>
+        </div>
+
+        <div class="clock-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span id="liveClock">--:--:--</span>
+        </div>
+
+        <button id="btnExportNav" class="btn-primary-sm" onclick="exportData()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Export CSV
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="dashboard-main">
+
+    <!-- Top Water Quality Index (WQI) Summary Banner -->
+    <section class="wqi-summary-banner card">
+      <div class="wqi-left">
+        <div class="wqi-circle-wrap">
+          <svg viewBox="0 0 100 100" class="wqi-svg">
+            <circle cx="50" cy="50" r="40" class="wqi-track-circle"></circle>
+            <circle cx="50" cy="50" r="40" id="wqiProgressCircle" class="wqi-progress-circle"></circle>
+          </svg>
+          <div class="wqi-number-wrap">
+            <span id="wqiScore" class="wqi-score">--</span>
+            <span class="wqi-unit">/100</span>
+          </div>
+        </div>
+
+        <div class="wqi-info">
+          <div class="wqi-header-row">
+            <span class="wqi-badge-tag">OVERALL WATER INDEX</span>
+            <span id="overallStatusBadge" class="status-pill status-pill-safe">CALCULATING...</span>
+          </div>
+          <h2 id="wqiVerdictTitle" class="wqi-title">Evaluating Multi-Sensor Stream</h2>
+          <p id="wqiVerdictDesc" class="wqi-desc">Analyzing TDS, pH balance, clarity (turbidity), thermal level, aeration (DO), and electrical conductivity in compliance with WHO &amp; BIS IS 10500:2012.</p>
+        </div>
+      </div>
+
+      <div class="wqi-quick-chips">
+        <div class="quick-chip">
+          <span class="chip-label">Potability</span>
+          <strong id="potabilityChip" class="chip-val color-safe">Safe for Drinking</strong>
+        </div>
+        <div class="quick-chip">
+          <span class="chip-label">Dominant Risk</span>
+          <strong id="riskChip" class="chip-val">None Detected</strong>
+        </div>
+        <div class="quick-chip">
+          <span class="chip-label">Active Sensors</span>
+          <strong class="chip-val">6 Parameters</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION TITLE -->
+    <div class="section-title-wrap">
+      <div>
+        <h3 class="section-heading">Live Multi-Parameter Meter Console</h3>
+        <span class="section-subtext">Real-time gauges for all 6 water quality parameters</span>
+      </div>
+    </div>
+
+    <!-- 6 CONSISTENT & RESPONSIVE METERS GRID -->
+    <section class="meters-grid">
+
+      <!-- METER 1: Total Dissolved Solids (TDS) -->
+      <div class="card meter-card">
+        <div class="meter-card-header">
+          <div>
+            <span class="meter-category">Mineral Solids</span>
+            <h4 class="meter-title">Total Dissolved Solids (TDS)</h4>
+          </div>
+          <span class="meter-live-indicator">
+            <span class="ping-circle"></span> LIVE
+          </span>
+        </div>
+
+        <div class="gauge-display-wrapper">
+          <svg viewBox="0 0 260 175" class="meter-svg">
+            <defs>
+              <filter id="shadowTds" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity="0.12"/>
+              </filter>
+            </defs>
+            <!-- Background Arc (Span 220°: -110° to +110°, R=85, Center=130,125) -->
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <!-- Arc 1: 0-300 ppm (Green) -->
+            <path d="M 50.13 154.07 A 85 85 0 0 1 52.35 90.43" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+            <!-- Arc 2: 300-500 ppm (Blue) -->
+            <path d="M 52.35 90.43 A 85 85 0 0 1 79.24 56.82" fill="none" stroke="#2E86DE" stroke-width="12"/>
+            <!-- Arc 3: 500-900 ppm (Orange) -->
+            <path d="M 79.24 56.82 A 85 85 0 0 1 161.84 46.19" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <!-- Arc 4: 900-1500 ppm (Red) -->
+            <path d="M 161.84 46.19 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+
+            <!-- Ticks -->
+            <g id="tdsTicksGroup"></g>
+
+            <!-- Scale Labels -->
+            <text x="44" y="168" class="scale-label">0</text>
+            <text x="35" y="90" class="scale-label">300</text>
+            <text x="72" y="44" class="scale-label">500</text>
+            <text x="175" y="38" class="scale-label">900</text>
+            <text x="216" y="168" class="scale-label">1500</text>
+
+            <!-- Rotating Needle (Pivot at 130, 125) -->
+            <g id="tdsNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" filter="url(#shadowTds)"/>
+              <polygon points="129,48 131,48 130,42" fill="#2E86DE"/>
+              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Readout cleanly below pivot (No needle collision!) -->
+        <div class="meter-readout-wrap">
+          <div class="readout-main">
+            <span id="tdsValue" class="readout-num">--</span>
+            <span class="readout-unit">ppm</span>
+          </div>
+          <span id="tdsStatus" class="status-pill status-pill-safe">Safe Level</span>
+        </div>
+
+        <div class="meter-footer-info">
+          <span class="meter-footnote">Safe Limit: <strong>&lt; 500 ppm</strong></span>
+          <span class="meter-sensor-tag">SEN0244 • ADC1</span>
+        </div>
+      </div>
+
+      <!-- METER 2: Water pH Level (0 - 14) -->
+      <div class="card meter-card">
+        <div class="meter-card-header">
+          <div>
+            <span class="meter-category">Acid-Base Balance</span>
+            <h4 class="meter-title">Water pH Level</h4>
+          </div>
+          <span id="phStatusBadge" class="status-pill status-pill-safe">Optimal</span>
+        </div>
+
+        <div class="gauge-display-wrapper">
+          <svg viewBox="0 0 260 175" class="meter-svg">
+            <!-- Background Arc -->
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <!-- Acidic (<6.5) Red -->
+            <path d="M 50.13 154.07 A 85 85 0 0 1 118.38 40.80" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+            <!-- Optimal (6.5 - 8.5) Green -->
+            <path d="M 118.38 40.80 A 85 85 0 0 1 163.99 47.09" fill="none" stroke="#22C55E" stroke-width="12"/>
+            <!-- Alkaline (>8.5) Purple -->
+            <path d="M 163.99 47.09 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#8B5CF6" stroke-width="12" stroke-linecap="round"/>
+
+            <!-- Ticks -->
+            <g id="phTicksGroup"></g>
+
+            <text x="44" y="168" class="scale-label">0 (Acid)</text>
+            <text x="130" y="28" class="scale-label">7 (Neutral)</text>
+            <text x="216" y="168" class="scale-label">14 (Base)</text>
+
+            <!-- Needle -->
+            <g id="phNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="meter-readout-wrap">
+          <div class="readout-main">
+            <span id="phValue" class="readout-num">--.-</span>
+            <span class="readout-unit">pH units</span>
+          </div>
+          <span class="status-pill status-pill-safe">Safe Range: 6.5–8.5</span>
+        </div>
+
+        <div class="meter-footer-info">
+          <span class="meter-footnote">Potable Range: <strong>6.5 – 8.5</strong></span>
+          <span class="meter-sensor-tag">pH Probe (E-201)</span>
+        </div>
+      </div>
+
+      <!-- METER 3: Turbidity (0 - 20 NTU) -->
+      <div class="card meter-card">
+        <div class="meter-card-header">
+          <div>
+            <span class="meter-category">Clarity & Suspended Solids</span>
+            <h4 class="meter-title">Turbidity (NTU)</h4>
+          </div>
+          <span id="turbStatusBadge" class="status-pill status-pill-safe">Clear</span>
+        </div>
+
+        <div class="gauge-display-wrapper">
+          <svg viewBox="0 0 260 175" class="meter-svg">
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <!-- Safe (0 - 5 NTU) Green -->
+            <path d="M 50.13 154.07 A 85 85 0 0 1 60.37 76.25" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+            <!-- Cloudy (5 - 10 NTU) Orange -->
+            <path d="M 60.37 76.25 A 85 85 0 0 1 130.00 40.00" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <!-- Dirty (>10 NTU) Red -->
+            <path d="M 130.00 40.00 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+
+            <g id="turbTicksGroup"></g>
+
+            <text x="44" y="168" class="scale-label">0</text>
+            <text x="50" y="65" class="scale-label">5 (Safe)</text>
+            <text x="130" y="28" class="scale-label">10</text>
+            <text x="216" y="168" class="scale-label">20+ NTU</text>
+
+            <g id="turbNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="meter-readout-wrap">
+          <div class="readout-main">
+            <span id="turbValue" class="readout-num">--.-</span>
+            <span class="readout-unit">NTU</span>
+          </div>
+          <span class="status-pill status-pill-safe">Standard: &lt; 5.0 NTU</span>
+        </div>
+
+        <div class="meter-footer-info">
+          <span class="meter-footnote">Max Safe Limit: <strong>&lt; 5.0 NTU</strong></span>
+          <span class="meter-sensor-tag">SEN0189 Optical</span>
+        </div>
+      </div>
+
+      <!-- METER 4: Dissolved Oxygen (DO: 0 - 14 mg/L) -->
+      <div class="card meter-card">
+        <div class="meter-card-header">
+          <div>
+            <span class="meter-category">Aeration & Biology</span>
+            <h4 class="meter-title">Dissolved Oxygen (DO)</h4>
+          </div>
+          <span id="doStatusBadge" class="status-pill status-pill-safe">Healthy</span>
+        </div>
+
+        <div class="gauge-display-wrapper">
+          <svg viewBox="0 0 260 175" class="meter-svg">
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <!-- Low / Hypoxic (0 - 4 mg/L) Red -->
+            <path d="M 50.13 154.07 A 85 85 0 0 1 67.70 67.18" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+            <!-- Fair (4 - 6.5 mg/L) Orange -->
+            <path d="M 67.70 67.18 A 85 85 0 0 1 118.38 40.80" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <!-- Optimal (6.5 - 14 mg/L) Blue -->
+            <path d="M 118.38 40.80 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#2E86DE" stroke-width="12" stroke-linecap="round"/>
+
+            <g id="doTicksGroup"></g>
+
+            <text x="44" y="168" class="scale-label">0</text>
+            <text x="60" y="55" class="scale-label">4</text>
+            <text x="120" y="28" class="scale-label">6.5 (Safe)</text>
+            <text x="216" y="168" class="scale-label">14 mg/L</text>
+
+            <g id="doNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="meter-readout-wrap">
+          <div class="readout-main">
+            <span id="doValue" class="readout-num">--.-</span>
+            <span class="readout-unit">mg / L</span>
+          </div>
+          <span class="status-pill status-pill-safe">Aeration Standard: &gt; 5.0</span>
+        </div>
+
+        <div class="meter-footer-info">
+          <span class="meter-footnote">Healthy Standard: <strong>&gt; 5.0 mg/L</strong></span>
+          <span class="meter-sensor-tag">Galvanic Cell</span>
+        </div>
+      </div>
+
+      <!-- METER 5: Electrical Conductivity (EC: 0 - 2000 µS/cm) -->
+      <div class="card meter-card">
+        <div class="meter-card-header">
+          <div>
+            <span class="meter-category">Ionic Mineralization</span>
+            <h4 class="meter-title">Conductivity (EC)</h4>
+          </div>
+          <span id="ecStatusBadge" class="status-pill status-pill-safe">Normal</span>
+        </div>
+
+        <div class="gauge-display-wrapper">
+          <svg viewBox="0 0 260 175" class="meter-svg">
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <!-- Low (0 - 400) Green -->
+            <path d="M 50.13 154.07 A 85 85 0 0 1 52.35 90.43" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+            <!-- Balanced (400 - 800) Blue -->
+            <path d="M 52.35 90.43 A 85 85 0 0 1 98.16 46.19" fill="none" stroke="#2E86DE" stroke-width="12"/>
+            <!-- High (800 - 1500) Orange -->
+            <path d="M 98.16 46.19 A 85 85 0 0 1 199.63 76.25" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <!-- Saline (>1500) Red -->
+            <path d="M 199.63 76.25 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+
+            <g id="ecTicksGroup"></g>
+
+            <text x="44" y="168" class="scale-label">0</text>
+            <text x="40" y="86" class="scale-label">400</text>
+            <text x="95" y="36" class="scale-label">800</text>
+            <text x="216" y="168" class="scale-label">2000</text>
+
+            <g id="ecNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="meter-readout-wrap">
+          <div class="readout-main">
+            <span id="ecValue" class="readout-num">---</span>
+            <span class="readout-unit">µS / cm</span>
+          </div>
+          <span class="status-pill status-pill-safe">Potable: &lt; 800 µS/cm</span>
+        </div>
+
+        <div class="meter-footer-info">
+          <span class="meter-footnote">Acceptable: <strong>&lt; 800 µS/cm</strong></span>
+          <span class="meter-sensor-tag">EC Probe</span>
+        </div>
+      </div>
+
+      <!-- METER 6: Water Temperature (0 - 50 °C) -->
+      <div class="card meter-card">
+        <div class="meter-card-header">
+          <div>
+            <span class="meter-category">Thermal State</span>
+            <h4 class="meter-title">Water Temperature</h4>
+          </div>
+          <span id="tempStatusBadge" class="status-pill status-pill-safe">Ambient</span>
+        </div>
+
+        <div class="gauge-display-wrapper">
+          <svg viewBox="0 0 260 175" class="meter-svg">
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <!-- Cool (0 - 20 °C) Blue -->
+            <path d="M 50.13 154.07 A 85 85 0 0 1 98.16 46.19" fill="none" stroke="#2E86DE" stroke-width="12" stroke-linecap="round"/>
+            <!-- Optimal (20 - 32 °C) Green -->
+            <path d="M 98.16 46.19 A 85 85 0 0 1 173.52 51.99" fill="none" stroke="#22C55E" stroke-width="12"/>
+            <!-- Elevated (>32 °C) Orange -->
+            <path d="M 173.52 51.99 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#F59E0B" stroke-width="12" stroke-linecap="round"/>
+
+            <g id="tempTicksGroup"></g>
+
+            <text x="44" y="168" class="scale-label">0°C</text>
+            <text x="130" y="28" class="scale-label">25°C (Ref)</text>
+            <text x="216" y="168" class="scale-label">50°C</text>
+
+            <g id="tempNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="meter-readout-wrap">
+          <div class="readout-main">
+            <span id="tempValue" class="readout-num">--.-</span>
+            <span class="readout-unit">°C</span>
+          </div>
+          <span class="status-pill status-pill-safe">Active Compensation</span>
+        </div>
+
+        <div class="meter-footer-info">
+          <span class="meter-footnote">TDS Calibration: <strong>25°C Norm</strong></span>
+          <span class="meter-sensor-tag">DS18B20 1-Wire</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- INTERACTIVE MULTI-PARAMETER TREND CHART -->
+    <section class="chart-section">
+      <div class="card chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="card-title">Multi-Parameter Historical Trend</h3>
+            <p class="card-subtitle">Real-time sensor waveform analysis with regulatory reference limits</p>
+          </div>
+          <div class="chart-controls-wrapper">
+            <!-- Parameter Switcher Pills -->
+            <div class="param-selector-group">
+              <button class="param-btn active" data-param="tds" onclick="switchParamChart('tds', this)">TDS (ppm)</button>
+              <button class="param-btn" data-param="ph" onclick="switchParamChart('ph', this)">pH</button>
+              <button class="param-btn" data-param="turbidity" onclick="switchParamChart('turbidity', this)">Turbidity</button>
+              <button class="param-btn" data-param="do" onclick="switchParamChart('do', this)">DO (mg/L)</button>
+              <button class="param-btn" data-param="ec" onclick="switchParamChart('ec', this)">EC</button>
+              <button class="param-btn" data-param="temp" onclick="switchParamChart('temp', this)">Temp (°C)</button>
+            </div>
+            <!-- Range Filter (24H, 7D, 30D) -->
+            <div class="tab-group">
+              <button class="tab-btn active" onclick="changeRange(this, 24)">24H</button>
+              <button class="tab-btn" onclick="changeRange(this, 168)">7D</button>
+              <button class="tab-btn" onclick="changeRange(this, 720)">30D</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-canvas-container">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM SECTION: LIVE LOGS & CONTAMINATION ALERTS -->
+    <section class="bottom-grid">
+      <!-- Left: Recent Readings Comprehensive Table -->
+      <div class="card table-card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Live Sensor Telemetry Log</h3>
+            <p class="card-subtitle">Recent records stamped across all 6 parameters</p>
+          </div>
+          <span id="readingsCountBadge" class="badge-count">0 records</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>TDS</th>
+                <th>pH</th>
+                <th>Turbidity</th>
+                <th>DO</th>
+                <th>EC</th>
+                <th>Temp</th>
+                <th>WQI</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="readingsTableBody">
+              <tr>
+                <td colspan="9" class="empty-state">Awaiting ESP32 hardware packets... Power on your microcontroller.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right: Contamination Alerts Panel -->
+      <div class="card alerts-card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Contamination &amp; Threshold Alerts</h3>
+            <p class="card-subtitle">Deviations exceeding WHO / BIS drinking water standards</p>
+          </div>
+          <span id="alertsCountBadge" class="badge-count badge-warning-count">0 alerts</span>
+        </div>
+
+        <div id="alertsListContainer" class="alerts-list">
+          <div class="alert-empty-card">
+            <div class="alert-empty-icon">🎉</div>
+            <div class="alert-empty-title">All Parameters Within Safe Limits</div>
+            <div class="alert-empty-desc">TDS, pH balance, clarity, and DO satisfy standard drinking water criteria.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="dashboard-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <strong>IoT-Based Real-Time Multi-Parameter Water Quality Monitoring System</strong>
+        <span>B.Tech CSE Capstone Project • Hardware: ESP32 + SEN0244 + E-201 + SEN0189 + DS18B20</span>
+      </div>
+      <div class="footer-right">
+        <span>Standards: WHO &amp; BIS IS 10500:2012 Specifications</span>
+        <span>Protocol: MQTT / Direct HTTP Telemetry • Pure HTML/CSS/JS + Flask</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Client Script -->
+  <script src="script.js"></script>
+</body>
+</html>
