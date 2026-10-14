@@ -5,3 +5,4 @@ sqlalchemy
 pandas
 python-dotenv
 pyserial
+gunicorn

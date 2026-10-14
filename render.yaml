@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: wqms-iot-dashboard
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: TDS-Monitoring-System/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: MQTT_BROKER
+        value: localhost
+      - key: MQTT_PORT
+        value: "1883"
+      - key: MQTT_TOPIC
+        value: water/tds/data
+      - key: TDS_SAFE_LIMIT
+        value: "500"
+      - key: TDS_WARNING_LIMIT
+        value: "900"
+      - key: FLASK_PORT
+        value: "5000"
+      - key: PYTHON_VERSION
+        value: "3.10.0"

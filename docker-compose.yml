@@ -1,0 +1,46 @@
+# docker-compose.yml
+# Deploy the IoT-Based Real-Time TDS Monitoring System
+# Services:
+#   mosquitto - MQTT broker (1883)
+#   backend   - Flask API (5000)
+#   frontend  - Nginx serving the dashboard UI (80)
+
+version: "3.8"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: tds_mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - mosquitto_data:/mosquitto/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tds_backend
+    env_file: .env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mosquitto
+    volumes:
+      - ./database:/app/../database
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tds_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mosquitto_data:

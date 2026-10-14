@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%" style="background:#ffffff; font-family:'Segoe UI',Roboto,sans-serif;">
+  <defs>
+    <filter id="boxShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-opacity="0.06"/>
+    </filter>
+    <linearGradient id="primaryGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2E86DE"/>
+      <stop offset="100%" stop-color="#1E66B4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title Banner -->
+  <rect x="20" y="15" width="920" height="48" rx="10" fill="#EBF3FC" stroke="#2E86DE" stroke-width="1.5"/>
+  <text x="480" y="45" text-anchor="middle" font-size="17" font-weight="700" fill="#1E66B4">AquaSense WQMS — Full-Stack IoT System Architecture &amp; Data Pipeline</text>
+
+  <!-- Layer 1: Physical Water & Sensor Probes -->
+  <g transform="translate(30, 85)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="160" height="360" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="160" height="38" rx="12" fill="#0284C7"/>
+    <text x="80" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">1. SENSING LAYER</text>
+
+    <!-- Sensor Chips -->
+    <g transform="translate(15, 55)">
+      <rect x="0" y="0" width="130" height="50" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="65" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">TDS Sensor</text>
+      <text x="65" y="38" text-anchor="middle" font-size="9" fill="#64748B">SEN0244 Probe</text>
+
+      <rect x="0" y="60" width="130" height="50" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="65" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">pH Sensor</text>
+      <text x="65" y="98" text-anchor="middle" font-size="9" fill="#64748B">E-201-C BNC</text>
+
+      <rect x="0" y="120" width="130" height="50" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="65" y="142" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">Turbidity</text>
+      <text x="65" y="158" text-anchor="middle" font-size="9" fill="#64748B">SEN0189 Optical</text>
+
+      <rect x="0" y="180" width="130" height="50" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="65" y="202" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">Temperature</text>
+      <text x="65" y="218" text-anchor="middle" font-size="9" fill="#64748B">DS18B20 1-Wire</text>
+
+      <rect x="0" y="240" width="130" height="50" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="65" y="262" text-anchor="middle" font-size="11" font-weight="700" fill="#0F766E">DO &amp; EC Derived</text>
+      <text x="65" y="278" text-anchor="middle" font-size="9" fill="#64748B">Bio &amp; Salinity Metrics</text>
+    </g>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 190 265 L 230 265" fill="none" stroke="#64748B" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Layer 2: Embedded Edge Processing -->
+  <g transform="translate(230, 85)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="170" height="360" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="170" height="38" rx="12" fill="#1F2937"/>
+    <text x="85" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">2. EDGE COMPUTING</text>
+
+    <g transform="translate(15, 60)">
+      <rect x="0" y="0" width="140" height="65" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="70" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#1F2937">ESP32 DevKit V1</text>
+      <text x="70" y="38" text-anchor="middle" font-size="9" fill="#64748B">Dual-Core 240MHz</text>
+      <text x="70" y="52" text-anchor="middle" font-size="9" fill="#2563EB">ADC1_CH4, CH6, CH7</text>
+
+      <rect x="0" y="80" width="140" height="75" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="70" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#059669">Noise Filtering</text>
+      <text x="70" y="38" text-anchor="middle" font-size="9" fill="#64748B">40-Sample Median</text>
+      <text x="70" y="52" text-anchor="middle" font-size="9" fill="#64748B">Outlier Discard</text>
+      <text x="70" y="66" text-anchor="middle" font-size="9" fill="#64748B">Temp-Compensation</text>
+
+      <rect x="0" y="170" width="140" height="65" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="70" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2563EB">JSON Telemetry</text>
+      <text x="70" y="38" text-anchor="middle" font-size="9" fill="#64748B">Packet Formatting</text>
+      <text x="70" y="52" text-anchor="middle" font-size="9" fill="#2563EB">4000ms Interval</text>
+    </g>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 400 265 L 440 265" fill="none" stroke="#64748B" stroke-width="2.5"/>
+
+  <!-- Layer 3: Transport Layer -->
+  <g transform="translate(440, 85)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="150" height="360" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="150" height="38" rx="12" fill="#EA580C"/>
+    <text x="75" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">3. TRANSPORT</text>
+
+    <g transform="translate(12, 70)">
+      <rect x="0" y="0" width="126" height="90" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="63" y="25" text-anchor="middle" font-size="12" font-weight="700" fill="#EA580C">Mosquitto MQTT</text>
+      <text x="63" y="44" text-anchor="middle" font-size="9" fill="#64748B">TCP Port 1883</text>
+      <text x="63" y="60" text-anchor="middle" font-size="9" font-weight="600" fill="#374151">Topic:</text>
+      <text x="63" y="75" text-anchor="middle" font-size="9" fill="#2563EB">water/tds/data</text>
+
+      <rect x="0" y="115" width="126" height="90" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="63" y="25" text-anchor="middle" font-size="12" font-weight="700" fill="#2563EB">Direct HTTP</text>
+      <text x="63" y="44" text-anchor="middle" font-size="9" fill="#64748B">TCP Port 5000</text>
+      <text x="63" y="60" text-anchor="middle" font-size="9" font-weight="600" fill="#374151">Endpoint:</text>
+      <text x="63" y="75" text-anchor="middle" font-size="8.5" fill="#059669">/api/sensor/data</text>
+    </g>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 590 265 L 630 265" fill="none" stroke="#64748B" stroke-width="2.5"/>
+
+  <!-- Layer 4: Backend & Database -->
+  <g transform="translate(630, 85)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="150" height="360" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="150" height="38" rx="12" fill="#16A34A"/>
+    <text x="75" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">4. BACKEND &amp; DB</text>
+
+    <g transform="translate(12, 60)">
+      <rect x="0" y="0" width="126" height="75" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="63" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#16A34A">Python Flask</text>
+      <text x="63" y="38" text-anchor="middle" font-size="9" fill="#64748B">REST API Engine</text>
+      <text x="63" y="52" text-anchor="middle" font-size="9" fill="#64748B">Multi-threaded Ingestion</text>
+      <text x="63" y="66" text-anchor="middle" font-size="9" fill="#2563EB">CORS &amp; CSV Stream</text>
+
+      <rect x="0" y="90" width="126" height="75" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="63" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">WQI Rule Engine</text>
+      <text x="63" y="38" text-anchor="middle" font-size="9" fill="#64748B">WHO / BIS IS 10500</text>
+      <text x="63" y="52" text-anchor="middle" font-size="9" fill="#64748B">Sub-Index Weighting</text>
+      <text x="63" y="66" text-anchor="middle" font-size="9" fill="#DC2626">Contamination Alert</text>
+
+      <rect x="0" y="180" width="126" height="65" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="63" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#0284C7">SQLite 3 DB</text>
+      <text x="63" y="38" text-anchor="middle" font-size="9" fill="#64748B">SQLAlchemy ORM</text>
+      <text x="63" y="52" text-anchor="middle" font-size="9" fill="#64748B">tds_data.db</text>
+    </g>
+  </g>
+
+  <!-- Arrow 4 -> 5 -->
+  <path d="M 780 265 L 820 265" fill="none" stroke="#64748B" stroke-width="2.5"/>
+
+  <!-- Layer 5: Web UI Dashboard -->
+  <g transform="translate(820, 85)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="110" height="360" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="110" height="38" rx="12" fill="url(#primaryGrad)"/>
+    <text x="55" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">5. DASHBOARD</text>
+
+    <g transform="translate(8, 60)">
+      <rect x="0" y="0" width="94" height="65" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="47" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#1F2937">6 SVG Meters</text>
+      <text x="47" y="36" text-anchor="middle" font-size="8.5" fill="#64748B">220° Sweep</text>
+      <text x="47" y="50" text-anchor="middle" font-size="8.5" fill="#2563EB">Live Needles</text>
+
+      <rect x="0" y="80" width="94" height="65" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="47" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#1F2937">WQI Ring</text>
+      <text x="47" y="36" text-anchor="middle" font-size="8.5" fill="#64748B">Score /100</text>
+      <text x="47" y="50" text-anchor="middle" font-size="8.5" fill="#16A34A">Verdict Chip</text>
+
+      <rect x="0" y="160" width="94" height="65" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="47" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#1F2937">Chart.js</text>
+      <text x="47" y="36" text-anchor="middle" font-size="8.5" fill="#64748B">Trends 24H/7D</text>
+      <text x="47" y="50" text-anchor="middle" font-size="8.5" fill="#D97706">Safety Lines</text>
+    </g>
+  </g>
+</svg>

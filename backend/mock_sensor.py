@@ -45,10 +45,10 @@ def run_mock_sensor():
         mqtt_client.connect(config.MQTT_BROKER, config.MQTT_PORT, 5)
         mqtt_client.loop_start()
         use_mqtt = True
-        print(f"✓ Connected to MQTT Broker ({config.MQTT_BROKER}:{config.MQTT_PORT})")
+        print(f"[OK] Connected to MQTT Broker ({config.MQTT_BROKER}:{config.MQTT_PORT})")
     except Exception as e:
         print(f"[NOTE] Local Mosquitto MQTT broker not detected ({e}).")
-        print(f"✓ Using Automatic HTTP Direct Ingestion: {HTTP_ENDPOINT}")
+        print(f"[OK] Using Automatic HTTP Direct Ingestion: {HTTP_ENDPOINT}")
         use_mqtt = False
 
     print("\nStarting live streaming every 4 seconds. Press Ctrl+C to stop.\n")
