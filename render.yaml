@@ -4,9 +4,8 @@ services:
     runtime: python
     region: singapore
     plan: free
-    rootDir: TDS-Monitoring-System/backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn --chdir backend app:app --bind 0.0.0.0:$PORT --workers 2
     envVars:
       - key: MQTT_BROKER
         value: localhost
