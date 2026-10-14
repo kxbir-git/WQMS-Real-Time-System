@@ -23,8 +23,13 @@ import urllib.error
 import paho.mqtt.client as mqtt
 
 import config
+import os
 
-HTTP_ENDPOINT = f"http://localhost:{config.FLASK_PORT}/api/sensor/data"
+REMOTE_ENDPOINT = "https://wqms-iot-dashboard.onrender.com/api/sensor/data"
+LOCAL_ENDPOINT = f"http://localhost:{config.FLASK_PORT}/api/sensor/data"
+
+# If SENSOR_TARGET=local is set or local server is preferred, use LOCAL_ENDPOINT; otherwise stream to cloud
+HTTP_ENDPOINT = LOCAL_ENDPOINT if os.getenv("SENSOR_TARGET") == "local" else REMOTE_ENDPOINT
 
 def run_mock_sensor():
     print("=============================================================")
