@@ -7,8 +7,9 @@
 [![Database: SQLite](https://img.shields.io/badge/Database-SQLite%203-lightgrey)](https://www.sqlite.org/)
 [![Standards: WHO & BIS](https://img.shields.io/badge/Standards-BIS%20IS%2010500%3A2012-red)](https://bis.gov.in/)
 
-> **B.Tech Computer Science & Engineering — Final Year Capstone Project**  
-> Developed as an intensive **15-Day Sprint** by a collaborative **4-Member Team**.
+> **B.Tech Computer Science & Engineering — Final Year Capstone Project (300 Marks Evaluation)**  
+> Developed as an intensive **2-Month (60 Days) Capstone Engineering Project** by a collaborative **3-Member Team**.  
+> **Full Presentation Deck & Logbook:** [`docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md`](docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md)
 
 ---
 
@@ -26,9 +27,9 @@ The system edge layer utilizes an **ESP32 microcontroller** with a 40-sample med
 
 ---
 
-## 2. Project Team & Work Distribution (4 Members)
+## 2. Project Team & Work Distribution (3-Member Core Team)
 
-This capstone project was planned, executed, and validated collaboratively over a structured 15-day development sprint. Responsibility domains were categorized according to specialized engineering disciplines:
+This capstone project was planned, executed, and validated collaboratively over a structured 60-day development window. Responsibility domains were categorized according to specialized engineering disciplines:
 
 ```text
 ========================================================================================
@@ -36,45 +37,50 @@ This capstone project was planned, executed, and validated collaboratively over 
 ========================================================================================
  TEAM MEMBER           ROLE                           PRIMARY DELIVERABLES
 ----------------------------------------------------------------------------------------
- Member 1              Hardware & Embedded Systems    • ESP32 Pinout & Analog ADC1 wiring
-                       Lead                           • Sensor Interfacing (TDS, pH, Turbidity, DS18B20)
-                                                      • C++ Firmware (`tds_sensor.ino`)
-                                                      • 40-Sample Median Filtering & Polynomial Fitting
-----------------------------------------------------------------------------------------
- Member 2              Backend Architecture &         • Flask RESTful API Engine (`app.py`)
-                       Protocols Lead                 • MQTT Broker Setup (Eclipse Mosquitto)
-                                                      • Background Ingestion Thread (`mqtt_subscriber.py`)
-                                                      • Dual Transport Fallback (Direct HTTP API)
-----------------------------------------------------------------------------------------
- Member 3              Frontend & UI/UX Developer     • Responsive Single-Page Dashboard (`index.html`)
-                                                      • Custom SVG Speedometer & Precision Dial Meters
-                                                      • Light White Modern Design System (`style.css`)
+ Member 1:             Frontend UI/UX & AI/ML         • Responsive Glassmorphism Dashboard (`index.html`, `style.css`)
+ NAILA JAVED           Analytics Lead                 • 6 Custom SVG 220° Sweep Speedometers & Dial Meters
+                                                      • Weighted Water Quality Index (WQI) Algorithmic Engine
                                                       • Chart.js Multi-Parameter Waveforms (`script.js`)
+                                                      • Mobile QR Scanner & Official PDF Inspection Certificate
 ----------------------------------------------------------------------------------------
- Member 4              Database, QA & Validation      • SQLAlchemy ORM Schema & Migrations (`database.py`)
-                       Specialist                     • Rule-based WQI Formulation & Alerts (`alert_service.py`)
-                                                      • 3-Sample Laboratory Testing Protocol
-                                                      • CSV Export Streaming & Documentation Lead
+ Member 2:             IoT & Sensors Embedded         • ESP32 Pinout & Analog ADC1 Channel Allocation
+ APARNA PANDEY         Systems Lead                   • Sensor Interfacing (TDS SEN0244, pH E-201-C, Turbidity, DS18B20)
+                                                      • C++ Firmware (`hardware/tds_sensor.ino`)
+                                                      • 40-Sample Bubble-Sort Noise Median Filter Algorithm
+                                                      • Temperature Compensation Math & 3-Buffer Sensor Calibration
+----------------------------------------------------------------------------------------
+ Member 3:             Backend, Database & Cloud      • Python 3.10 Flask RESTful API Engine (`backend/app.py`)
+ [Third Member Name]   Deployment Lead                • SQLAlchemy ORM Schema & Migrations (`backend/database.py`)
+                                                      • Dual-Transport Pipeline (MQTT Mosquitto & HTTP Ingestion)
+                                                      • Render.com Linux Cloud Deployment & Vercel Edge Reverse Proxy
+                                                      • 12-Second Hardware Watchdog & CSV Streaming Engine
+----------------------------------------------------------------------------------------
+ ENTIRE TEAM           Hardware Assembly, Prototype   • Breadboard/PCB Circuit Assembly & Power Rail Isolation
+ (Joint Collaborative  Fabrication & Validation        • Acrylic Probe Holder Rig & Sensor Probe Physical Protection
+  Effort)                                             • 3-Sample Laboratory Testing Protocol (RO, Tap, Contaminated)
+                                                      • Final Capstone Defense Report & Viva Presentation Preparation
 ========================================================================================
 ```
 
 ---
 
-## 3. 15-Day Development Sprint Timeline
+## 3. 2-Month (60 Days) Agile Sprint Roadmap
 
 ```text
-[Day 1-3] Requirements & Sensor BOM ────► [Day 4-7] Firmware & Circuit Assembly
-                                                               │
-[Day 14-15] Testing, Audit & Push ◄──── [Day 11-13] Frontend ◄──┴──► [Day 8-10] Backend & WQI
+[Phase 1: Days 1–15]   Requirements, Standards (WHO/BIS), Sensor BOM & Circuit Architecture
+──────────────────────► [Phase 2: Days 16–30] Firmware (C++), 40-Sample Filter & Backend DB Engine
+                        ──────────────────────► [Phase 3: Days 31–45] Glassmorphism UI, SVG Needles & WQI Engine
+                                                ──────────────────────► [Phase 4: Days 46–60] Cloud Deploy, 3-Sample Test & Defense
 ```
 
 | Sprint Phase | Timeline | Key Engineering Milestones |
 |---|---|---|
-| **Phase 1: Architecture & Feasibility** | **Days 1 – 3** | • Review WHO & BIS IS 10500:2012 drinking water standards.<br>• Component selection & procurement (BOM optimization under ₹3,100).<br>• Protocol benchmarking: MQTT vs HTTP for IoT battery and latency trade-offs. |
-| **Phase 2: Embedded Firmware & Prototyping** | **Days 4 – 7** | • Breadboard assembly of ESP32 DevKit V1 with analog sensors on ADC1 channels.<br>• Temperature compensation algorithm implementation for TDS and pH probes.<br>• 40-sample bubble-sort median filter development to suppress electrical noise.<br>• Mosquitto MQTT broker configuration on localhost:1883. |
-| **Phase 3: Backend API & WQI Engine** | **Days 8 – 10** | • Python 3.10+ virtual environment and SQLAlchemy ORM database creation.<br>• Background multi-threaded subscriber (`mqtt_subscriber.py`) with auto-reconnection.<br>• Rule-based threshold classification (`alert_service.py`) and WQI computation.<br>• REST endpoints: `/api/latest`, `/api/history`, `/api/stats`, `/api/export/csv`. |
-| **Phase 4: Responsive Frontend Console** | **Days 11 – 13** | • Light white modern UI (#FFFFFF cards, #F7F9FC canvas, #2E86DE accents).<br>• Engineering of 6 SVG speedometers/dials with smooth cubic-bezier needle easing.<br>• Perfectly centered WQI circular progress ring with status pills.<br>• Chart.js interactive historical waveforms with parameter switching tabs.<br>• Responsive mobile/tablet/desktop media query optimization. |
-| **Phase 5: Laboratory Testing & Project Audit** | **Days 14 – 15** | • Real-world 3-sample validation (RO Filtered, Municipal Tap, Saline Contaminated).<br>• Standby/Hardware-Only stream validation with 12-second auto-disconnect watchdog.<br>• CSV audit export verification and capstone presentation report finalization. |
+| **Phase 1: Architecture & Feasibility** | **Days 1 – 15**<br>(15 Aug – 29 Aug) | • Review WHO & BIS IS 10500:2012 drinking water standards.<br>• Component selection & procurement (BOM optimization under ₹3,100).<br>• ESP32 pinout study & ADC1 vs ADC2 conflict isolation.<br>• Protocol benchmarking: MQTT vs HTTP REST for latency and power trade-offs. |
+| **Phase 2: Embedded Firmware & Backend DB** | **Days 16 – 30**<br>(30 Aug – 13 Sep) | • Breadboard assembly of ESP32 DevKit V1 with analog sensors on ADC1 channels.<br>• 40-sample bubble-sort median filter development to suppress electrical noise.<br>• Temperature compensation algorithm implementation for TDS and pH probes.<br>• SQLAlchemy ORM database creation and Flask `/api/sensor/data` ingestion endpoint. |
+| **Phase 3: Responsive Console & WQI Engine** | **Days 31 – 45**<br>(14 Sep – 28 Sep) | • Light modern Glassmorphism UI (#FFFFFF cards, #F7F9FC canvas, #2E86DE accents).<br>• Engineering of 6 SVG speedometers/dials with smooth cubic-bezier needle easing.<br>• Weighted Arithmetic WQI scoring engine (`alert_service.py`) and status pills.<br>• Chart.js interactive historical waveforms with parameter switching tabs.<br>• Mobile QR code modal and printable A4 inspection certificate styling. |
+| **Phase 4: Cloud Deployment, Testing & Defense** | **Days 46 – 60**<br>(29 Sep – 15 Oct) | • Production deployment to Render.com (Gunicorn WSGI) and Vercel Edge CDN.<br>• Real-world 3-sample validation (RO Filtered, Municipal Tap, Saline Contaminated).<br>• Standby/Hardware-Only stream validation with 12-second auto-disconnect watchdog.<br>• CSV audit export verification and university capstone presentation finalization. |
+
+> Detailed Day-by-Day (Day 1 to Day 60) development logbook with exact dates and working time slots is documented in [`docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md`](docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md).
 
 ---
 
