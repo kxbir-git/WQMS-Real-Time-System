@@ -8,8 +8,8 @@
 [![Standards: WHO & BIS](https://img.shields.io/badge/Standards-BIS%20IS%2010500%3A2012-red)](https://bis.gov.in/)
 
 > **B.Tech Computer Science & Engineering — Final Year Capstone Project (300 Marks Evaluation)**  
-> Developed as an intensive **2-Month (60 Days) Capstone Engineering Project** by a collaborative **3-Member Team**.  
-> **Full Presentation Deck & Logbook:** [`docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md`](docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md)
+> Developed as a comprehensive **4-Month Capstone Engineering Project** by a collaborative **3-Member Team**.  
+> **Full Presentation Deck (24 Slides):** [`docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md`](docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md)
 
 ---
 
@@ -64,23 +64,23 @@ This capstone project was planned, executed, and validated collaboratively over 
 
 ---
 
-## 3. 2-Month (60 Days) Agile Sprint Roadmap
+## 3. 4-Month Academic Development Framework
 
 ```text
-[Phase 1: Days 1–15]   Requirements, Standards (WHO/BIS), Sensor BOM & Circuit Architecture
-──────────────────────► [Phase 2: Days 16–30] Firmware (C++), 40-Sample Filter & Backend DB Engine
-                        ──────────────────────► [Phase 3: Days 31–45] Glassmorphism UI, SVG Needles & WQI Engine
-                                                ──────────────────────► [Phase 4: Days 46–60] Cloud Deploy, 3-Sample Test & Defense
+[Month 1] Requirements, Standards (WHO/BIS), Sensor BOM & Circuit Architecture
+──────────────────────► [Month 2] Firmware (C++), 40-Sample Filter & Backend DB Engine
+                        ──────────────────────► [Month 3] Glassmorphism UI, SVG Needles & WQI Engine
+                                                ──────────────────────► [Month 4] Cloud Deploy, 3-Sample Test & Defense
 ```
 
-| Sprint Phase | Timeline | Key Engineering Milestones |
+| Phase | Duration | Key Engineering Milestones |
 |---|---|---|
-| **Phase 1: Architecture & Feasibility** | **Days 1 – 15**<br>(15 Aug – 29 Aug) | • Review WHO & BIS IS 10500:2012 drinking water standards.<br>• Component selection & procurement (BOM optimization under ₹3,100).<br>• ESP32 pinout study & ADC1 vs ADC2 conflict isolation.<br>• Protocol benchmarking: MQTT vs HTTP REST for latency and power trade-offs. |
-| **Phase 2: Embedded Firmware & Backend DB** | **Days 16 – 30**<br>(30 Aug – 13 Sep) | • Breadboard assembly of ESP32 DevKit V1 with analog sensors on ADC1 channels.<br>• 40-sample bubble-sort median filter development to suppress electrical noise.<br>• Temperature compensation algorithm implementation for TDS and pH probes.<br>• SQLAlchemy ORM database creation and Flask `/api/sensor/data` ingestion endpoint. |
-| **Phase 3: Responsive Console & WQI Engine** | **Days 31 – 45**<br>(14 Sep – 28 Sep) | • Light modern Glassmorphism UI (#FFFFFF cards, #F7F9FC canvas, #2E86DE accents).<br>• Engineering of 6 SVG speedometers/dials with smooth cubic-bezier needle easing.<br>• Weighted Arithmetic WQI scoring engine (`alert_service.py`) and status pills.<br>• Chart.js interactive historical waveforms with parameter switching tabs.<br>• Mobile QR code modal and printable A4 inspection certificate styling. |
-| **Phase 4: Cloud Deployment, Testing & Defense** | **Days 46 – 60**<br>(29 Sep – 15 Oct) | • Production deployment to Render.com (Gunicorn WSGI) and Vercel Edge CDN.<br>• Real-world 3-sample validation (RO Filtered, Municipal Tap, Saline Contaminated).<br>• Standby/Hardware-Only stream validation with 12-second auto-disconnect watchdog.<br>• CSV audit export verification and university capstone presentation finalization. |
+| **Month 1: Research, BOM & Circuit Design** | **Month 1** | • Review WHO & BIS IS 10500:2012 drinking water standards.<br>• Component selection & procurement (BOM optimization under ₹3,100).<br>• ESP32 pinout mapping & ADC1 channel allocation.<br>• Breadboard power rail distribution (5V & 3.3V) and circuit schematic design. |
+| **Month 2: Embedded Firmware & Backend DB** | **Month 2** | • Breadboard assembly of ESP32 with sensors on ADC1 channels.<br>• 40-sample bubble-sort median filter development to suppress electrical noise.<br>• Temperature compensation algorithm implementation for TDS and pH probes.<br>• SQLAlchemy ORM database creation and Flask `/api/sensor/data` ingestion endpoint. |
+| **Month 3: Responsive Console & WQI Engine** | **Month 3** | • Light modern Glassmorphism UI (#FFFFFF cards, #F7F9FC canvas, #2E86DE accents).<br>• Engineering of 6 SVG speedometers/dials with smooth cubic-bezier needle easing.<br>• Weighted Arithmetic WQI scoring engine (`alert_service.py`) and status pills.<br>• Chart.js interactive historical waveforms with parameter switching tabs.<br>• Mobile QR code modal and printable A4 inspection certificate styling. |
+| **Month 4: Cloud Deployment, Testing & Defense** | **Month 4** | • Production deployment to Render.com (Gunicorn WSGI) and Vercel Edge CDN.<br>• 12-second hardware watchdog integration for live/standby state detection.<br>• Real-world 3-sample validation (RO Filtered, Municipal Tap, Saline Contaminated).<br>• Capstone 24-slide presentation deck finalization for 300 marks university defense. |
 
-> Detailed Day-by-Day (Day 1 to Day 60) development logbook with exact dates and working time slots is documented in [`docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md`](docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md).
+> Complete 24-slide presentation deck and member presentation script is documented in [`docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md`](docs/FINAL_YEAR_PRESENTATION_AND_TIMELINE_300_MARKS.md).
 
 ---
 
