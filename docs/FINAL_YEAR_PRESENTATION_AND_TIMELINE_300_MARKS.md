@@ -62,7 +62,7 @@
 * **Team Members & Roles:**
   * **Naila Javed** — Frontend Engineering & AI/ML Analytics Lead
   * **Aparna Pandey** — IoT Embedded Systems & Sensors Lead
-  * **[Member 3 Name]** — Backend, Database & Cloud Deployment Lead
+  * **[Nashra Khan]** — Backend, Database & Cloud Deployment Lead
   * *Joint Effort:* Complete Hardware Rig Assembly, Calibration & Testing
 * **Live System URLs:**
   * Live Web App: `https://wqms-sys.vercel.app/`
@@ -210,7 +210,7 @@
 ---
 
 ### Slide 12: Backend Architecture & RESTful Ingestion Engine
-* **Presenter:** **[Member 3 Name]**
+* **Presenter:** **[Nashra Khan]**
 * **Backend Stack:** Python 3.10 + Flask + Gunicorn WSGI.
 * **Core REST Endpoints:**
   * `POST /api/sensor/data` $\rightarrow$ Ingests JSON telemetry from ESP32.
@@ -219,12 +219,12 @@
   * `GET /api/stats` $\rightarrow$ Real-time daily Min, Max, and Average summary.
   * `GET /api/export/csv` $\rightarrow$ Streams entire historical database as a timestamped CSV.
 * **Speaker Notes (Member 3):**
-  > *"Respected teachers, I am [Member 3 Name], responsible for the backend, database, and cloud deployment. I built a Python Flask REST API served by Gunicorn WSGI. It handles telemetry ingestion, database storage, and serves filtered data to the web client."*
+  > *"Respected teachers, I am [Nashra Khan], responsible for the backend, database, and cloud deployment. I built a Python Flask REST API served by Gunicorn WSGI. It handles telemetry ingestion, database storage, and serves filtered data to the web client."*
 
 ---
 
 ### Slide 13: Database Design & SQLAlchemy ORM
-* **Presenter:** **[Member 3 Name]**
+* **Presenter:** **[Nashra Khan]**
 * **Database Architecture (`database.py`):**
   * Uses **SQLAlchemy ORM** mapped to an ACID-compliant **SQLite** database.
   * Stores: `device_id`, `tds_value`, `ph_value`, `turbidity`, `temperature`, `do_value`, `ec_value`, `wqi_value`, `status`, and UTC `timestamp`.
@@ -237,7 +237,7 @@
 ---
 
 ### Slide 14: Dual-Transport Communication (MQTT + HTTP Fallback)
-* **Presenter:** **[Member 3 Name]**
+* **Presenter:** **[Nashra Khan]**
 * **Protocol Comparison:**
   * **Primary Transport (MQTT 3.1.1):** Pub/sub over port 1883 with a 2-byte binary header; minimizes cellular/Wi-Fi bandwidth and battery draw. Handled by a background listener thread (`mqtt_subscriber.py`).
   * **Failover Transport (HTTP REST POST):** Standard JSON POST to `/api/sensor/data`.
@@ -248,7 +248,7 @@
 ---
 
 ### Slide 15: Cloud Deployment on Render & Vercel
-* **Presenter:** **[Member 3 Name]**
+* **Presenter:** **[Nashra Khan]**
 * **Deployment Architecture:**
   * **Backend on Render.com:** Containerized Linux web service executing `gunicorn app:app` with automated CI/CD continuous deployment from GitHub.
   * **Frontend on Vercel:** Hosted on Vercel's global Edge Network for sub-50ms static delivery.
@@ -259,7 +259,7 @@
 ---
 
 ### Slide 16: Hardware Watchdog & Fail-Safe Telemetry
-* **Presenter:** **[Member 3 Name]**
+* **Presenter:** **[Nashra Khan]**
 * **The Stale Data Problem:** If the IoT hardware is turned off or loses power, displaying old data as "live" is dangerously misleading.
 * **The 12-Second Watchdog Mechanism:**
   * The backend computes reading age: $\Delta t = \text{CurrentTime} - \text{LatestTimestamp}$.
