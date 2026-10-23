@@ -81,13 +81,32 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
     """Initialise database tables (SQLite or Supabase PostgreSQL)."""
+    global engine, SessionLocal
     if config.DB_TYPE == "sqlite":
         db_dir = os.path.dirname(config.DB_PATH)
         if db_dir and not os.path.exists(db_dir):
             os.makedirs(db_dir, exist_ok=True)
-
-    Base.metadata.create_all(bind=engine)
-    print(f"[DB] Multi-parameter Database initialised ({config.DB_TYPE})")
+    try:
+        Base.metadata.create_all(bind=engine)
+        print(f"[DB] Multi-parameter Database initialised ({config.DB_TYPE})")
+    except Exception as e:
+        print(f"[DB ERROR] Could not connect to remote {config.DB_TYPE} database: {e}")
+        if config.DB_TYPE != "sqlite":
+            print("[DB] Falling back to SQLite local database so server stays online...")
+            config.DB_TYPE = "sqlite"
+            db_dir = os.path.dirname(config.DB_PATH)
+            if db_dir and not os.path.exists(db_dir):
+                os.makedirs(db_dir, exist_ok=True)
+            engine = create_engine(
+                f"sqlite:///{config.DB_PATH}",
+                connect_args={"check_same_thread": False},
+                echo=False
+            )
+            SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+            Base.metadata.create_all(bind=engine)
+            print("[DB] Local SQLite fallback initialised successfully.")
+        else:
+            raise
 
 def get_session():
     """Returns a new SQLAlchemy session."""

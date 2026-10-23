@@ -20,6 +20,6 @@ services:
       - key: FLASK_PORT
         value: "5000"
       - key: SUPABASE_DB_URL
-        value: "postgresql://postgres:naila2004javed@db.zpbtgqcdexqrgnzpjzwa.supabase.co:5432/postgres"
+        value: "postgresql://postgres.zpbtgqcdexqrgnzpjzwa:naila2004javed@aws-0-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require"
       - key: PYTHON_VERSION
         value: "3.10.0"

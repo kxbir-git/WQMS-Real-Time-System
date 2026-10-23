@@ -35,6 +35,19 @@ if SUPABASE_DB_URL:
     elif url.startswith("ostgres://"):
         url = "postgresql://" + url[len("ostgres://"):]
 
+    # Render does not support IPv6 outbound. Direct db.<ref>.supabase.co resolves only to IPv6.
+    # Automatically convert to Supabase IPv4 Connection Pooler (aws-0-ap-south-1.pooler.supabase.com:5432)
+    import re as _re
+    _m = _re.search(r"db\.([a-z0-9]+)\.supabase\.co", url)
+    if _m:
+        _ref = _m.group(1)
+        url = _re.sub(r"db\.[a-z0-9]+\.supabase\.co:?[0-9]*", "aws-0-ap-south-1.pooler.supabase.com:5432", url)
+        # Fix user from postgres to postgres.<ref> if not already qualified
+        url = _re.sub(r"//postgres:", f"//postgres.{_ref}:", url)
+
+    if "sslmode=" not in url and ("supabase.co" in url or "pooler.supabase.com" in url):
+        url += ("&" if "?" in url else "?") + "sslmode=require"
+
     # Ensure SQLAlchemy uses psycopg2 driver for PostgreSQL
     if url.startswith("postgres://"):
         DB_URL = url.replace("postgres://", "postgresql+psycopg2://", 1)
