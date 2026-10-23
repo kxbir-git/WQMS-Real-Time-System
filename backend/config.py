@@ -39,7 +39,9 @@ TDS_WARNING_LIMIT   = int(os.getenv("TDS_WARNING_LIMIT", 900))    # ≤900 → W
 # -------------------------------------------------------
 #  Flask Server
 # -------------------------------------------------------
-FLASK_PORT = int(os.getenv("FLASK_PORT", 5000))       # Port for Flask app
+import re as _re
+_raw_port = os.getenv("FLASK_PORT", "5000")
+FLASK_PORT = int(_re.sub(r"[^0-9]", "", _raw_port) or "5000")  # Port for Flask app
 FLASK_DEBUG = os.getenv("FLASK_DEBUG", "False") == "True"
 
 # -------------------------------------------------------
