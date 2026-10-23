@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://wqms-iot-dashboard.onrender.com/api/:match*"
+      "destination": "https://wqms-real-time-system-1.onrender.com/api/:match*"
     }
   ]
 }

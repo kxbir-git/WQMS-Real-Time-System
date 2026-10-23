@@ -25,7 +25,7 @@ import paho.mqtt.client as mqtt
 import config
 import os
 
-REMOTE_ENDPOINT = "https://wqms-iot-dashboard.onrender.com/api/sensor/data"
+REMOTE_ENDPOINT = "https://wqms-real-time-system-1.onrender.com/api/sensor/data"
 LOCAL_ENDPOINT = f"http://localhost:{config.FLASK_PORT}/api/sensor/data"
 
 # If SENSOR_TARGET=local is set or local server is preferred, use LOCAL_ENDPOINT; otherwise stream to cloud
