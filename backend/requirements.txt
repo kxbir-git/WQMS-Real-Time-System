@@ -2,6 +2,7 @@ flask
 flask-cors
 paho-mqtt
 sqlalchemy
+psycopg2-binary
 pandas
 python-dotenv
 pyserial

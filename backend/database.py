@@ -60,24 +60,36 @@ class WaterQualityReading(Base):
 # Backward compatibility alias
 TDSReading = WaterQualityReading
 
-# Engine with thread-safety for Flask multi-threading
-engine = create_engine(
-    config.DB_URL,
-    connect_args={"check_same_thread": False},
-    echo=False
-)
+# Engine with thread-safety
+if config.DB_TYPE == "sqlite":
+    engine = create_engine(
+        config.DB_URL,
+        connect_args={"check_same_thread": False},
+        echo=False
+    )
+else:
+    # PostgreSQL (Supabase) — no check_same_thread needed
+    engine = create_engine(
+        config.DB_URL,
+        pool_pre_ping=True,
+        pool_size=5,
+        max_overflow=10,
+        echo=False
+    )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
-    """Initialise SQLite database tables with automatic schema validation."""
-    db_dir = os.path.dirname(config.DB_PATH)
-    if db_dir and not os.path.exists(db_dir):
-        os.makedirs(db_dir, exist_ok=True)
+    """Initialise database tables (SQLite or Supabase PostgreSQL)."""
+    if config.DB_TYPE == "sqlite":
+        db_dir = os.path.dirname(config.DB_PATH)
+        if db_dir and not os.path.exists(db_dir):
+            os.makedirs(db_dir, exist_ok=True)
 
     Base.metadata.create_all(bind=engine)
-    print(f"[DB] Multi-parameter Database initialised at: {config.DB_PATH}")
+    print(f"[DB] Multi-parameter Database initialised ({config.DB_TYPE})")
 
 def get_session():
     """Returns a new SQLAlchemy session."""
     return SessionLocal()
+
