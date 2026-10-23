@@ -28,11 +28,20 @@ DB_PATH = os.getenv("DB_PATH", "../database/tds_data.db")
 SUPABASE_DB_URL = os.getenv("SUPABASE_DB_URL", "")
 
 if SUPABASE_DB_URL:
+    url = SUPABASE_DB_URL.strip().strip('"').strip("'")
+    # Fix common copy-paste typos where leading 'p' was missed
+    if url.startswith("ostgresql://"):
+        url = "postgresql://" + url[len("ostgresql://"):]
+    elif url.startswith("ostgres://"):
+        url = "postgresql://" + url[len("ostgres://"):]
+
     # Ensure SQLAlchemy uses psycopg2 driver for PostgreSQL
-    if SUPABASE_DB_URL.startswith("postgresql://"):
-        DB_URL = SUPABASE_DB_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
+    if url.startswith("postgres://"):
+        DB_URL = url.replace("postgres://", "postgresql+psycopg2://", 1)
+    elif url.startswith("postgresql://"):
+        DB_URL = url.replace("postgresql://", "postgresql+psycopg2://", 1)
     else:
-        DB_URL = SUPABASE_DB_URL
+        DB_URL = url
     DB_TYPE = "supabase"
     print("[CONFIG] Using Supabase PostgreSQL database")
 else:
