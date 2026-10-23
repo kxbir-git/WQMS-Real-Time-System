@@ -19,5 +19,7 @@ services:
         value: "900"
       - key: FLASK_PORT
         value: "5000"
+      - key: SUPABASE_DB_URL
+        value: "postgresql://postgres:naila2004javed@db.zpbtgqcdexqrgnzpjzwa.supabase.co:5432/postgres"
       - key: PYTHON_VERSION
         value: "3.10.0"
