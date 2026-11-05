@@ -28,8 +28,10 @@ import os
 REMOTE_ENDPOINT = "https://wqms-real-time-system-1.onrender.com/api/sensor/data"
 LOCAL_ENDPOINT = f"http://localhost:{config.FLASK_PORT}/api/sensor/data"
 
-# If SENSOR_TARGET=local is set or local server is preferred, use LOCAL_ENDPOINT; otherwise stream to cloud
-HTTP_ENDPOINT = LOCAL_ENDPOINT if os.getenv("SENSOR_TARGET") == "local" else REMOTE_ENDPOINT
+# Smart Endpoint Selection:
+# By default streams to local Flask server (http://localhost:5000/api/sensor/data).
+# Set SENSOR_TARGET=remote to stream to the cloud Render instance.
+HTTP_ENDPOINT = REMOTE_ENDPOINT if os.getenv("SENSOR_TARGET") == "remote" else LOCAL_ENDPOINT
 
 def run_mock_sensor():
     print("=============================================================")

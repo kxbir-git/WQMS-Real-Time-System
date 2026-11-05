@@ -702,6 +702,10 @@ function exportData() {
 
 function openQrModal() {
   const modal = document.getElementById("qrModalBackdrop");
+  const urlPill = document.querySelector(".qr-url-pill span");
+  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
+  const displayUrl = isLocal ? "https://wqms-sys.vercel.app/" : window.location.href;
+  if (urlPill) urlPill.textContent = displayUrl;
   if (modal) modal.classList.add("active");
 }
 
@@ -742,18 +746,92 @@ async function toggleSimulator() {
 }
 
 /* ============================================================
-   11. Startup Initialization
+   11. Gauge Calibration Sweep & Self-Check Animation
+   ============================================================ */
+function runNeedleCalibrationSweep(onComplete) {
+  const needles = [tdsNeedle, phNeedle, turbNeedle, doNeedle, ecNeedle, tempNeedle];
+  const maxValues = { tds: 1500, ph: 14.0, turb: 20.0, do: 14.0, ec: 2000, temp: 50.0, wqi: 100 };
+
+  // Ensure initial zero/resting position
+  needles.forEach(needle => {
+    if (needle) needle.style.transform = "rotate(-110deg)";
+  });
+
+  function setDisplayValues(progress) {
+    if (tdsValueElem) tdsValueElem.textContent = Math.round(maxValues.tds * progress);
+    if (phValueElem) phValueElem.textContent = (maxValues.ph * progress).toFixed(1);
+    if (turbValueElem) turbValueElem.textContent = (maxValues.turb * progress).toFixed(1);
+    if (doValueElem) doValueElem.textContent = (maxValues.do * progress).toFixed(1);
+    if (ecValueElem) ecValueElem.textContent = Math.round(maxValues.ec * progress);
+    if (tempValueElem) tempValueElem.textContent = (maxValues.temp * progress).toFixed(1);
+    if (wqiScoreElem) wqiScoreElem.textContent = Math.round(maxValues.wqi * progress);
+
+    if (wqiProgressCircle) {
+      const circ = 2 * Math.PI * 40;
+      wqiProgressCircle.style.strokeDashoffset = circ - (circ * progress);
+      wqiProgressCircle.style.stroke = progress > 0.75 ? "#22C55E" : (progress > 0.4 ? "#2E86DE" : "#F59E0B");
+    }
+  }
+
+  // Phase 1: Forward Sweep (0% -> 100% Full Scale)
+  setTimeout(() => {
+    needles.forEach(needle => {
+      if (needle) needle.style.transform = "rotate(110deg)";
+    });
+
+    const startUp = performance.now();
+    const durationUp = 800;
+    function stepUp(now) {
+      const p = Math.min((now - startUp) / durationUp, 1);
+      setDisplayValues(p);
+      if (p < 1) requestAnimationFrame(stepUp);
+    }
+    requestAnimationFrame(stepUp);
+  }, 150);
+
+  // Phase 2: Reverse Sweep back to 0% (Full Scale -> Rest)
+  setTimeout(() => {
+    needles.forEach(needle => {
+      if (needle) needle.style.transform = "rotate(-110deg)";
+    });
+
+    const startDown = performance.now();
+    const durationDown = 800;
+    function stepDown(now) {
+      const p = Math.max(1 - (now - startDown) / durationDown, 0);
+      setDisplayValues(p);
+      if (p > 0) {
+        requestAnimationFrame(stepDown);
+      } else {
+        setDisplayValues(0);
+      }
+    }
+    requestAnimationFrame(stepDown);
+  }, 1100);
+
+  // Phase 3: Handover to Live Telemetry Polling
+  setTimeout(() => {
+    if (typeof onComplete === "function") {
+      onComplete();
+    }
+  }, 2050);
+}
+
+/* ============================================================
+   12. Startup Initialization
    ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
   initAllTicks();
   initChart();
-
-  fetchLatest();
+  updateLiveClock();
   fetchHistory(currentHistoryHours);
 
-  setInterval(updateLiveClock, 1000);
-  setInterval(fetchLatest, 4000);
-  setInterval(() => fetchHistory(currentHistoryHours), 20000);
+  // Perform dynamic startup needle calibration sweep on every refresh
+  runNeedleCalibrationSweep(() => {
+    fetchLatest();
+    setInterval(fetchLatest, 4000);
+    setInterval(() => fetchHistory(currentHistoryHours), 20000);
+  });
 
-  updateLiveClock();
+  setInterval(updateLiveClock, 1000);
 });

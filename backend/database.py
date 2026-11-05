@@ -61,19 +61,29 @@ class WaterQualityReading(Base):
 TDSReading = WaterQualityReading
 
 # Engine with thread-safety
-if config.DB_TYPE == "sqlite":
+try:
+    if config.DB_TYPE == "sqlite":
+        engine = create_engine(
+            config.DB_URL,
+            connect_args={"check_same_thread": False},
+            echo=False
+        )
+    else:
+        # PostgreSQL (Supabase) — no check_same_thread needed
+        engine = create_engine(
+            config.DB_URL,
+            pool_pre_ping=True,
+            pool_size=5,
+            max_overflow=10,
+            echo=False
+        )
+except Exception as _eng_err:
+    print(f"[DB WARNING] Could not create {config.DB_TYPE} engine ({_eng_err}). Falling back to SQLite.")
+    config.DB_TYPE = "sqlite"
+    config.DB_URL = f"sqlite:///{config.DB_PATH}"
     engine = create_engine(
         config.DB_URL,
         connect_args={"check_same_thread": False},
-        echo=False
-    )
-else:
-    # PostgreSQL (Supabase) — no check_same_thread needed
-    engine = create_engine(
-        config.DB_URL,
-        pool_pre_ping=True,
-        pool_size=5,
-        max_overflow=10,
         echo=False
     )
 

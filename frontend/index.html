@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,14 @@
   <!-- Google Fonts: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <!-- Chart.js via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- Toast Container -->
@@ -23,7 +26,8 @@
     <div class="nav-container">
       <div class="nav-brand">
         <span class="brand-logo-dot">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
           </svg>
         </span>
@@ -33,56 +37,48 @@
         </div>
       </div>
 
-        <div class="device-badge">
-          <span id="deviceStatusDot" class="status-dot dot-offline"></span>
-          <span id="deviceStatusText" class="status-label">Hardware Disconnected</span>
-        </div>
-
-        <div class="clock-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
-          <span id="liveClock">--:--:--</span>
-        </div>
-
-        <button id="btnMobileQr" class="btn-secondary-sm" onclick="openQrModal()" title="Open on Mobile via QR Code">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-          Mobile QR
-        </button>
-
-        <a id="btnSlidesNav" href="presentation.html" target="_blank" class="btn-secondary-sm" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="Open 24-Slide Capstone Presentation Deck">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-            <line x1="8" y1="21" x2="16" y2="21"></line>
-            <line x1="12" y1="17" x2="12" y2="21"></line>
-          </svg>
-          Slides (PPT)
-        </a>
-
-        <button id="btnPrintReport" class="btn-secondary-sm" onclick="printOfficialReport()" title="Print Official PDF Test Report">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="6 9 6 2 18 2 18 9"></polyline>
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-            <rect x="6" y="14" width="12" height="8"></rect>
-          </svg>
-          Print Report (PDF)
-        </button>
-
-        <button id="btnExportNav" class="btn-primary-sm" onclick="exportData()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          Export CSV
-        </button>
+      <div class="device-badge">
+        <span id="deviceStatusDot" class="status-dot dot-offline"></span>
+        <span id="deviceStatusText" class="status-label">Hardware Disconnected</span>
       </div>
+
+      <div class="clock-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span id="liveClock">--:--:--</span>
+      </div>
+
+      <button id="btnMobileQr" class="btn-secondary-sm" onclick="openQrModal()" title="Open on Mobile via QR Code">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        Mobile QR
+      </button>
+
+      <button id="btnPrintReport" class="btn-secondary-sm" onclick="printOfficialReport()"
+        title="Print Official PDF Test Report">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Print Report (PDF)
+      </button>
+
+      <button id="btnExportNav" class="btn-primary-sm" onclick="exportData()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Export CSV
+      </button>
+    </div>
     </div>
   </header>
 
@@ -109,7 +105,8 @@
             <span id="overallStatusBadge" class="status-pill status-pill-safe">CALCULATING...</span>
           </div>
           <h2 id="wqiVerdictTitle" class="wqi-title">Evaluating Multi-Sensor Stream</h2>
-          <p id="wqiVerdictDesc" class="wqi-desc">Analyzing TDS, pH balance, clarity (turbidity), thermal level, aeration (DO), and electrical conductivity in compliance with WHO &amp; BIS IS 10500:2012.</p>
+          <p id="wqiVerdictDesc" class="wqi-desc">Analyzing TDS, pH balance, clarity (turbidity), thermal level,
+            aeration (DO), and electrical conductivity in compliance with WHO &amp; BIS IS 10500:2012.</p>
         </div>
       </div>
 
@@ -156,19 +153,22 @@
           <svg viewBox="0 0 260 175" class="meter-svg">
             <defs>
               <filter id="shadowTds" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity="0.12"/>
+                <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity="0.12" />
               </filter>
             </defs>
             <!-- Background Arc (Span 220°: -110° to +110°, R=85, Center=130,125) -->
-            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Arc 1: 0-300 ppm (Green) -->
-            <path d="M 50.13 154.07 A 85 85 0 0 1 52.35 90.43" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 0 1 52.35 90.43" fill="none" stroke="#22C55E" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Arc 2: 300-500 ppm (Blue) -->
-            <path d="M 52.35 90.43 A 85 85 0 0 1 79.24 56.82" fill="none" stroke="#2E86DE" stroke-width="12"/>
+            <path d="M 52.35 90.43 A 85 85 0 0 1 79.24 56.82" fill="none" stroke="#2E86DE" stroke-width="12" />
             <!-- Arc 3: 500-900 ppm (Orange) -->
-            <path d="M 79.24 56.82 A 85 85 0 0 1 161.84 46.19" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <path d="M 79.24 56.82 A 85 85 0 0 1 161.84 46.19" fill="none" stroke="#F59E0B" stroke-width="12" />
             <!-- Arc 4: 900-1500 ppm (Red) -->
-            <path d="M 161.84 46.19 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 161.84 46.19 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12"
+              stroke-linecap="round" />
 
             <!-- Ticks -->
             <g id="tdsTicksGroup"></g>
@@ -182,10 +182,10 @@
 
             <!-- Rotating Needle (Pivot at 130, 125) -->
             <g id="tdsNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
-              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" filter="url(#shadowTds)"/>
-              <polygon points="129,48 131,48 130,42" fill="#2E86DE"/>
-              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" filter="url(#shadowTds)" />
+              <polygon points="129,48 131,48 130,42" fill="#2E86DE" />
+              <circle cx="130" cy="125" r="9" fill="#1F2937" />
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF" />
             </g>
           </svg>
         </div>
@@ -218,13 +218,16 @@
         <div class="gauge-display-wrapper">
           <svg viewBox="0 0 260 175" class="meter-svg">
             <!-- Background Arc -->
-            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Acidic (<6.5) Red -->
-            <path d="M 50.13 154.07 A 85 85 0 0 1 118.38 40.80" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 0 1 118.38 40.80" fill="none" stroke="#EF4444" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Optimal (6.5 - 8.5) Green -->
-            <path d="M 118.38 40.80 A 85 85 0 0 1 163.99 47.09" fill="none" stroke="#22C55E" stroke-width="12"/>
+            <path d="M 118.38 40.80 A 85 85 0 0 1 163.99 47.09" fill="none" stroke="#22C55E" stroke-width="12" />
             <!-- Alkaline (>8.5) Purple -->
-            <path d="M 163.99 47.09 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#8B5CF6" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 163.99 47.09 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#8B5CF6" stroke-width="12"
+              stroke-linecap="round" />
 
             <!-- Ticks -->
             <g id="phTicksGroup"></g>
@@ -235,9 +238,9 @@
 
             <!-- Needle -->
             <g id="phNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
-              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" />
+              <circle cx="130" cy="125" r="9" fill="#1F2937" />
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF" />
             </g>
           </svg>
         </div>
@@ -268,13 +271,16 @@
 
         <div class="gauge-display-wrapper">
           <svg viewBox="0 0 260 175" class="meter-svg">
-            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Safe (0 - 5 NTU) Green -->
-            <path d="M 50.13 154.07 A 85 85 0 0 1 60.37 76.25" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 0 1 60.37 76.25" fill="none" stroke="#22C55E" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Cloudy (5 - 10 NTU) Orange -->
-            <path d="M 60.37 76.25 A 85 85 0 0 1 130.00 40.00" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <path d="M 60.37 76.25 A 85 85 0 0 1 130.00 40.00" fill="none" stroke="#F59E0B" stroke-width="12" />
             <!-- Dirty (>10 NTU) Red -->
-            <path d="M 130.00 40.00 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 130.00 40.00 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12"
+              stroke-linecap="round" />
 
             <g id="turbTicksGroup"></g>
 
@@ -284,9 +290,9 @@
             <text x="216" y="168" class="scale-label">20+ NTU</text>
 
             <g id="turbNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
-              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" />
+              <circle cx="130" cy="125" r="9" fill="#1F2937" />
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF" />
             </g>
           </svg>
         </div>
@@ -317,13 +323,16 @@
 
         <div class="gauge-display-wrapper">
           <svg viewBox="0 0 260 175" class="meter-svg">
-            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Low / Hypoxic (0 - 4 mg/L) Red -->
-            <path d="M 50.13 154.07 A 85 85 0 0 1 67.70 67.18" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 0 1 67.70 67.18" fill="none" stroke="#EF4444" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Fair (4 - 6.5 mg/L) Orange -->
-            <path d="M 67.70 67.18 A 85 85 0 0 1 118.38 40.80" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <path d="M 67.70 67.18 A 85 85 0 0 1 118.38 40.80" fill="none" stroke="#F59E0B" stroke-width="12" />
             <!-- Optimal (6.5 - 14 mg/L) Blue -->
-            <path d="M 118.38 40.80 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#2E86DE" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 118.38 40.80 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#2E86DE" stroke-width="12"
+              stroke-linecap="round" />
 
             <g id="doTicksGroup"></g>
 
@@ -333,9 +342,9 @@
             <text x="216" y="168" class="scale-label">14 mg/L</text>
 
             <g id="doNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
-              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" />
+              <circle cx="130" cy="125" r="9" fill="#1F2937" />
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF" />
             </g>
           </svg>
         </div>
@@ -366,15 +375,18 @@
 
         <div class="gauge-display-wrapper">
           <svg viewBox="0 0 260 175" class="meter-svg">
-            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Low (0 - 400) Green -->
-            <path d="M 50.13 154.07 A 85 85 0 0 1 52.35 90.43" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 0 1 52.35 90.43" fill="none" stroke="#22C55E" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Balanced (400 - 800) Blue -->
-            <path d="M 52.35 90.43 A 85 85 0 0 1 98.16 46.19" fill="none" stroke="#2E86DE" stroke-width="12"/>
+            <path d="M 52.35 90.43 A 85 85 0 0 1 98.16 46.19" fill="none" stroke="#2E86DE" stroke-width="12" />
             <!-- High (800 - 1500) Orange -->
-            <path d="M 98.16 46.19 A 85 85 0 0 1 199.63 76.25" fill="none" stroke="#F59E0B" stroke-width="12"/>
+            <path d="M 98.16 46.19 A 85 85 0 0 1 199.63 76.25" fill="none" stroke="#F59E0B" stroke-width="12" />
             <!-- Saline (>1500) Red -->
-            <path d="M 199.63 76.25 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 199.63 76.25 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#EF4444" stroke-width="12"
+              stroke-linecap="round" />
 
             <g id="ecTicksGroup"></g>
 
@@ -384,9 +396,9 @@
             <text x="216" y="168" class="scale-label">2000</text>
 
             <g id="ecNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
-              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" />
+              <circle cx="130" cy="125" r="9" fill="#1F2937" />
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF" />
             </g>
           </svg>
         </div>
@@ -417,13 +429,16 @@
 
         <div class="gauge-display-wrapper">
           <svg viewBox="0 0 260 175" class="meter-svg">
-            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 1 1 209.87 154.07" fill="none" stroke="#E5E7EB" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Cool (0 - 20 °C) Blue -->
-            <path d="M 50.13 154.07 A 85 85 0 0 1 98.16 46.19" fill="none" stroke="#2E86DE" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 50.13 154.07 A 85 85 0 0 1 98.16 46.19" fill="none" stroke="#2E86DE" stroke-width="12"
+              stroke-linecap="round" />
             <!-- Optimal (20 - 32 °C) Green -->
-            <path d="M 98.16 46.19 A 85 85 0 0 1 173.52 51.99" fill="none" stroke="#22C55E" stroke-width="12"/>
+            <path d="M 98.16 46.19 A 85 85 0 0 1 173.52 51.99" fill="none" stroke="#22C55E" stroke-width="12" />
             <!-- Elevated (>32 °C) Orange -->
-            <path d="M 173.52 51.99 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#F59E0B" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 173.52 51.99 A 85 85 0 0 1 209.87 154.07" fill="none" stroke="#F59E0B" stroke-width="12"
+              stroke-linecap="round" />
 
             <g id="tempTicksGroup"></g>
 
@@ -432,9 +447,9 @@
             <text x="216" y="168" class="scale-label">50°C</text>
 
             <g id="tempNeedle" class="meter-needle" style="transform-origin: 130px 125px;">
-              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="9" fill="#1F2937"/>
-              <circle cx="130" cy="125" r="4" fill="#FFFFFF"/>
+              <polygon points="127,126 133,126 131,48 129,48" fill="#1F2937" />
+              <circle cx="130" cy="125" r="9" fill="#1F2937" />
+              <circle cx="130" cy="125" r="4" fill="#FFFFFF" />
             </g>
           </svg>
         </div>
@@ -466,9 +481,11 @@
           <div class="chart-controls-wrapper">
             <!-- Parameter Switcher Pills -->
             <div class="param-selector-group">
-              <button class="param-btn active" data-param="tds" onclick="switchParamChart('tds', this)">TDS (ppm)</button>
+              <button class="param-btn active" data-param="tds" onclick="switchParamChart('tds', this)">TDS
+                (ppm)</button>
               <button class="param-btn" data-param="ph" onclick="switchParamChart('ph', this)">pH</button>
-              <button class="param-btn" data-param="turbidity" onclick="switchParamChart('turbidity', this)">Turbidity</button>
+              <button class="param-btn" data-param="turbidity"
+                onclick="switchParamChart('turbidity', this)">Turbidity</button>
               <button class="param-btn" data-param="do" onclick="switchParamChart('do', this)">DO (mg/L)</button>
               <button class="param-btn" data-param="ec" onclick="switchParamChart('ec', this)">EC</button>
               <button class="param-btn" data-param="temp" onclick="switchParamChart('temp', this)">Temp (°C)</button>
@@ -517,7 +534,8 @@
             </thead>
             <tbody id="readingsTableBody">
               <tr>
-                <td colspan="9" class="empty-state">Awaiting ESP32 hardware packets... Power on your microcontroller.</td>
+                <td colspan="9" class="empty-state">Awaiting ESP32 hardware packets... Power on your microcontroller.
+                </td>
               </tr>
             </tbody>
           </table>
@@ -538,7 +556,8 @@
           <div class="alert-empty-card">
             <div class="alert-empty-icon">🎉</div>
             <div class="alert-empty-title">All Parameters Within Safe Limits</div>
-            <div class="alert-empty-desc">TDS, pH balance, clarity, and DO satisfy standard drinking water criteria.</div>
+            <div class="alert-empty-desc">TDS, pH balance, clarity, and DO satisfy standard drinking water criteria.
+            </div>
           </div>
         </div>
       </div>
@@ -575,7 +594,10 @@
       </div>
       <div class="modal-body">
         <div class="qr-container">
-          <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://wqms-sys.vercel.app/&bgcolor=ffffff&color=1F2937&margin=1" alt="Scan QR Code to open dashboard" width="220" height="220" />
+          <img id="qrImage"
+            src="qr_code.svg"
+            onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://wqms-sys.vercel.app/&bgcolor=ffffff&color=1F2937&margin=1';"
+            alt="Scan QR Code to open dashboard" width="220" height="220" />
         </div>
         <div class="qr-url-pill">
           <span>https://wqms-sys.vercel.app/</span>
@@ -602,4 +624,5 @@
   <!-- Client Script -->
   <script src="script.js"></script>
 </body>
+
 </html>
